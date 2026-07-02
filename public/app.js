@@ -195,6 +195,15 @@ function heroSVG(prod, env) {
     <path d="M ${cx-60} ${baseY-70} Q ${cx-20} ${baseY-80} ${cx+4} ${baseY-62}" stroke="${pal.accent}" stroke-width="7" fill="none" stroke-linecap="round"/>
     <path d="M ${cx+30} ${baseY-52} Q ${cx+60} ${baseY-60} ${cx+82} ${baseY-40}" stroke="${pal.accent}" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/>`;
 
+  if (prod.shape === 'cloud') {
+    let dots = '';
+    for (let i = 0; i < 120; i++) {
+      const a = Math.random() * 6.283, r = Math.pow(Math.random(), 0.5);
+      dots += `<circle cx="${(cx + Math.cos(a) * r * 70).toFixed(1)}" cy="${(baseY - 75 + Math.sin(a) * r * 60).toFixed(1)}" r="${(1 + Math.random() * 2.4).toFixed(1)}" fill="${pal.base}" opacity="${(0.35 + Math.random() * 0.6).toFixed(2)}"/>`;
+    }
+    shape = dots;
+  }
+
   if (prod.shape === 'headphones') shape = `
     <path d="M ${cx-64} ${baseY-72} Q ${cx-64} ${baseY-170} ${cx} ${baseY-170} Q ${cx+64} ${baseY-170} ${cx+64} ${baseY-72}" stroke="${pal.metal}" stroke-width="13" fill="none" stroke-linecap="round"/>
     <rect x="${cx-84}" y="${baseY-92}" width="38" height="76" rx="18" fill="${pal.base}"/>
@@ -226,6 +235,13 @@ function heroSVG(prod, env) {
 let PRODUCTS = [];
 const thumbViews = [];
 
+async function getPointsFor(p) {
+  if (p.points_url) {
+    try { return await fetch(p.points_url).then(r => r.json()); } catch (e) {}
+  }
+  return genPoints(p.shape, p.palette);
+}
+
 async function renderLibrary() {
   PRODUCTS = await api.list();
   const grid = $('#grid'); grid.innerHTML = '';
@@ -233,19 +249,21 @@ async function renderLibrary() {
     const card = el('div', 'card');
     const cv = document.createElement('canvas');
     card.appendChild(cv);
+    const ingested = !!p.points_url;
     const meta = el('div', 'meta', `
       <div class="name">${p.name}</div>
       <div class="brandline">${p.brand} · ${p.category}</div>
       <div class="badges">
-        <span class="badge verified">✓ verified</span>
-        <span class="badge qa">ΔE ${p.deltaE}</span>
-        <span class="badge">${p.dimensions_mm[2]} mm</span>
-        <span class="badge">${p.gtin}</span>
+        ${p.verified ? '<span class="badge verified">✓ verified</span>' : '<span class="badge" style="color:var(--bad);border-color:#5a2b2b">⚠ provisional</span>'}
+        ${p.deltaE != null ? `<span class="badge qa">ΔE ${p.deltaE}</span>` : ''}
+        ${p.dimensions_mm ? `<span class="badge">${p.dimensions_mm[2]} mm</span>` : ''}
+        ${p.gaussian_count ? `<span class="badge">${(p.gaussian_count/1000).toFixed(0)}k gaussians · real 3DGS</span>` : ''}
+        ${p.gtin ? `<span class="badge">${p.gtin}</span>` : ''}
       </div>`);
     card.appendChild(meta);
     card.onclick = () => openDetail(p.id);
     grid.appendChild(card);
-    thumbViews.push(splatView(cv, genPoints(p.shape, p.palette), { speed: 0.28 }));
+    getPointsFor(p).then(pts => thumbViews.push(splatView(cv, pts, { speed: 0.28 })));
   }
 }
 
@@ -261,7 +279,7 @@ async function openDetail(id) {
 
   if (currentView) currentView.stop();
   const cv = $('#splatCanvas');
-  currentView = splatView(cv, genPoints(currentProd.shape, currentProd.palette), { speed: 0.3 });
+  currentView = splatView(cv, await getPointsFor(currentProd), { speed: 0.3 });
   currentEnv = 'studio'; currentRung = 5;
 
   renderRungs(); renderEnvs(); applyRung();
@@ -337,10 +355,11 @@ function renderManifest(m) {
     </div>
     <div class="tier"><h3>Tier 2 · Measured truth</h3>
       <div class="kv">
-        <span class="k">Dimensions</span><span class="v">${m.measured.dimensions_mm.join(' × ')} mm</span>
-        <span class="k">Mass</span><span class="v">${m.measured.mass_g} g</span>
+        ${m.measured.gaussian_count ? `<span class="k">Gaussians</span><span class="v">${m.measured.gaussian_count.toLocaleString()} (real 3DGS capture)</span>` : ''}
+        <span class="k">Dimensions</span><span class="v">${m.measured.dimensions_mm ? m.measured.dimensions_mm.join(' × ') + ' mm' : (m.measured.dimensions_scene_units ? m.measured.dimensions_scene_units.join(' × ') + ' scene units — <span style="color:var(--bad)">uncalibrated</span>' : 'n/a')}</span>
+        ${m.measured.mass_g ? `<span class="k">Mass</span><span class="v">${m.measured.mass_g} g</span>` : ''}
         <span class="k">Colour</span><span class="v"><span class="swatch" style="background:${c.primary_hex}"></span>${c.primary_hex} · Lab ${c.primary_lab.join(', ')}</span>
-        <span class="k">ΔE vs spec</span><span class="v">${c.deltaE_vs_brand_spec} <span style="color:var(--ok)">(${m.qa.status})</span></span>
+        <span class="k">ΔE vs spec</span><span class="v">${c.deltaE_vs_brand_spec != null ? c.deltaE_vs_brand_spec : '—'} <span style="color:${m.qa.status === 'PASS' ? 'var(--ok)' : 'var(--bad)'}">(${m.qa.status})</span></span>
         <span class="k">Capture</span><span class="v">${m.measured.captureSession.rig_id} · ${m.measured.captureSession.date}</span>
         <span class="k">Passes</span><span class="v">${m.measured.captureSession.passes.join(' · ')}</span>
       </div>

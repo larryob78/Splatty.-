@@ -61,6 +61,22 @@ Loads real `.splat` / `.ply` / `.ksplat` files via the GaussianSplats3D (three.j
 - To make your own: scan a product with **Polycam** or **Luma AI** (both export
   Gaussian splats free), export `.ply`/`.splat`, drop it in.
 
+## Ingest a real splat into the library
+
+```bash
+node scripts/ingest.js data/splats/yourfile.splat "Display Name" your-id
+```
+
+Parses the 32-byte 3DGS format, **measures** the capture (gaussian count, bounding
+box, opacity-weighted dominant colour → hex + CIE Lab), generates and signs a Truth
+Manifest, and adds it to the library — where the QA gate correctly flags third-party
+captures as `PROVISIONAL` (no calibration, no colour target, no relight passes).
+That flag is the sales pitch: only rig-captured assets earn `PASS`.
+
+To test with a real library capture: download
+[nike.splat](https://huggingface.co/cakewalk/splat-data/resolve/main/nike.splat) (8.7 MB)
+into `data/splats/`, then `node scripts/ingest.js data/splats/nike.splat "Trainer (HF capture)" trainer-hf`.
+
 ## NVIDIA API (optional) — semantic search
 
 With your NVIDIA (Inception / build.nvidia.com) API key, library search upgrades from

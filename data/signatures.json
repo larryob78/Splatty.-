@@ -18,5 +18,10 @@
     "signature": "b1d3bd3825a1a555a07a48e53b2a4d7841e6d56f2073dc6a16a2bd7f6bb4ba02",
     "signed_at": "2026-07-02T20:37:22.903Z",
     "signer": "BS-DUB-01 rig authority (demo)"
+  },
+  "test-can": {
+    "signature": "c20078bf476325270c993f0450fde67a22da84431ea0d38aea973f80063bb665",
+    "signed_at": "2026-07-02T21:06:17.375Z",
+    "signer": "ingest pipeline (demo)"
   }
 }
