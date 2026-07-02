@@ -28,5 +28,10 @@
     "signature": "140eafd633b2de54d28125010ff0dc010920c17bf8853a3b0e077b9faa2b1da7",
     "signed_at": "2026-07-02T21:13:54.834Z",
     "signer": "ingest pipeline (demo)"
+  },
+  "banh-mi-supersplat": {
+    "signature": "9f22b18cc4adcfa9e1873423d86061318f0311ad1f0528b18aeba7c8d366d94b",
+    "signed_at": "2026-07-02T22:19:46.177Z",
+    "signer": "ingest pipeline (demo)"
   }
 }

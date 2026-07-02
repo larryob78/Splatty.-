@@ -120,8 +120,9 @@ function frameMatrix(buf) {
   const spread = a => a[Math.floor(a.length * 0.9)] - a[Math.floor(a.length * 0.1)];
   const c = [mid(xs), mid(ys), mid(zs)];
   const r = Math.max(spread(xs), spread(ys), spread(zs), 0.5);
-  // camera faces the object centre from distance 2.2r (y-flip: splat data is y-down)
-  return [1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, -c[0], c[1], c[2] + 2.2 * r, 1];
+  // camera faces the object centre from distance 2.2r, rotated π about Z so
+  // y-down splat data appears upright (det=+1, proper rotation)
+  return [-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, c[0], -c[1], c[2] + 2.2 * r, 1];
 }
 
 async function load(url, name) {

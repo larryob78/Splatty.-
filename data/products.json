@@ -697,6 +697,111 @@
           4
         ]
       }
+    },
+    {
+      "id": "banh-mi-supersplat",
+      "name": "Pastrami Banh Mi (SuperSplat gallery)",
+      "brand": "Third-party capture (uncalibrated)",
+      "category": "ingested splat",
+      "keywords": [
+        "ingested",
+        "real",
+        "splat",
+        "test",
+        "pastrami",
+        "banh",
+        "mi",
+        "(supersplat",
+        "gallery)"
+      ],
+      "shape": "cloud",
+      "palette": {
+        "base": "#916E4A",
+        "accent": "#c8ff3d",
+        "metal": "#9aa0ae"
+      },
+      "points_url": "/points/banh-mi-supersplat.json",
+      "splat_file": "/splats/banh-mi.splat",
+      "manifest": {
+        "@context": [
+          "https://schema.org",
+          "https://brandsplats.io/truth/v1"
+        ],
+        "@type": "Product3DAsset",
+        "gtin": null,
+        "sku": "INGEST-BANH-MI-SUPERSPLAT",
+        "name": "Pastrami Banh Mi (SuperSplat gallery)",
+        "brand": {
+          "@type": "Brand",
+          "name": "unverified third-party capture",
+          "verified": false
+        },
+        "measured": {
+          "gaussian_count": 237316,
+          "dimensions_scene_units": [
+            1.486,
+            1.25,
+            1.416
+          ],
+          "dimensions_mm": null,
+          "scale_calibration": "MISSING — capture was not made on a calibrated rig; physical dimensions unrecoverable",
+          "colour": {
+            "primary_hex": "#916E4A",
+            "primary_lab": [
+              49.1,
+              9.2,
+              25.4
+            ],
+            "deltaE_vs_brand_spec": null,
+            "note": "opacity-weighted mean of 237316 gaussians; no colour target in capture"
+          },
+          "materials": [
+            {
+              "region": "all",
+              "class": "unknown",
+              "finish": "unknown",
+              "relight_track": "none — no polarised passes, not relightable"
+            }
+          ],
+          "captureSession": {
+            "rig_id": "EXTERNAL",
+            "date": "2026-07-02",
+            "passes": [
+              "single RGB (uncontrolled)"
+            ],
+            "calibration_cert": null,
+            "source_file": "banh-mi.splat",
+            "source_bytes": 7594112
+          }
+        },
+        "qa": {
+          "deltaE": null,
+          "geometry_dev_mm": null,
+          "logo_integrity": null,
+          "status": "PROVISIONAL — fails Brand Splats QA: no calibration, no colour target, no relight data"
+        },
+        "brandRules": {
+          "logo_regions": [],
+          "approved_contexts": [
+            "test"
+          ],
+          "excluded_contexts": [
+            "advertising"
+          ]
+        },
+        "license": {
+          "usage": [
+            "agent_display"
+          ],
+          "training": false,
+          "territory": "test only — research-licensed source",
+          "expires": "2026-07-02"
+        },
+        "renditions": [
+          1,
+          4
+        ]
+      }
     }
   ]
 }

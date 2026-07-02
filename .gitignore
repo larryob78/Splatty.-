@@ -3,3 +3,5 @@ node_modules/
 data/splats/*.splat
 data/splats/*.ply
 data/splats/*.ksplat
+data/splats/sog-*/
+data/splats/banhmi-sog/

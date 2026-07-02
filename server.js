@@ -86,6 +86,31 @@ const server = http.createServer(async (req, res) => {
     return json(res, 404, { error: 'splat not found' });
   }
 
+  // ---------- SuperSplat import: fetch a gallery scene's SOG bundle ----------
+  // POST /api/import/sog {"scene":"https://superspl.at/scene/c339a996" | "c339a996", "name":"banh-mi"}
+  if (p === '/api/import/sog' && req.method === 'POST') {
+    const body = await readBody(req);
+    const m2 = String(body.scene || '').match(/([a-f0-9]{8})\/?$/i);
+    if (!m2) return json(res, 400, { error: 'give a superspl.at scene URL or 8-char scene id' });
+    const sceneId = m2[1];
+    const name = String(body.name || sceneId).toLowerCase().replace(/[^a-z0-9-]+/g, '-');
+    const dir = path.join(__dirname, 'data', 'splats', 'sog-' + name);
+    fs.mkdirSync(dir, { recursive: true });
+    const base = `https://d28zzqy0iyovbz.cloudfront.net/${sceneId}/v1/`;
+    const FILES = ['meta.json', 'means_l.webp', 'means_u.webp', 'quats.webp', 'scales.webp', 'sh0.webp', 'shN_centroids.webp', 'shN_labels.webp'];
+    const report = [];
+    for (const f of FILES) {
+      try {
+        const r = await fetch(base + f);
+        if (!r.ok) { report.push({ file: f, status: r.status }); continue; }
+        const buf = Buffer.from(await r.arrayBuffer());
+        fs.writeFileSync(path.join(dir, f), buf);
+        report.push({ file: f, bytes: buf.length });
+      } catch (e) { report.push({ file: f, error: e.message.slice(0, 80) }); }
+    }
+    return json(res, 200, { scene: sceneId, saved_to: 'data/splats/sog-' + name, files: report, source: 'superspl.at gallery — check scene licence before commercial use' });
+  }
+
   // ---------- static frontend ----------
   let file = p === '/' ? '/index.html' : p;
   file = path.normalize(file).replace(/^(\.\.[\/\\])+/, '');
