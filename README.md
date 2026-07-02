@@ -1,5 +1,9 @@
 # Brand Splats — Platform Prototype
 
+![Brand Splats demo — library, agent console, real 3DGS trainer splat](docs/brand-splats-demo.gif)
+
+*Demo: the library of measured product splats → an agent finds a verified can and relights it for golden hour → a training-data request is refused machine-readably (the moat) → a real 270k-gaussian trainer capture renders photorealistically in the Splat Lab.*
+
 **Scan once. Create forever.** Working prototype of the Brand Splat platform: a library of
 verified, rig-measured product assets with signed Truth Manifests, a rendition ladder,
 an agent gateway (REST + real MCP), machine-readable brand governance and licensing.
