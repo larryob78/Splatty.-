@@ -1,0 +1,493 @@
+{
+  "products": [
+    {
+      "id": "ember-cola-330",
+      "name": "Ember Cola 330ml",
+      "brand": "Ember Beverage Co.",
+      "category": "beverage can",
+      "keywords": [
+        "can",
+        "cola",
+        "drink",
+        "soda",
+        "red",
+        "beverage",
+        "aluminium"
+      ],
+      "shape": "can",
+      "palette": {
+        "base": "#c0392b",
+        "accent": "#f5e6c8",
+        "metal": "#d9d9de"
+      },
+      "manifest": {
+        "@context": [
+          "https://schema.org",
+          "https://brandsplats.io/truth/v1"
+        ],
+        "@type": "Product3DAsset",
+        "gtin": "05390001112223",
+        "sku": "EMB-CAN-330-2026",
+        "name": "Ember Cola 330ml",
+        "brand": {
+          "@type": "Brand",
+          "name": "Ember Beverage Co.",
+          "verified": true
+        },
+        "measured": {
+          "dimensions_mm": [
+            66.2,
+            66.2,
+            115.2
+          ],
+          "mass_g": 15.4,
+          "colour": {
+            "primary_hex": "#C0392B",
+            "primary_lab": [
+              45.2,
+              58.1,
+              38.7
+            ],
+            "deltaE_vs_brand_spec": 0.8
+          },
+          "materials": [
+            {
+              "region": "body",
+              "class": "aluminium",
+              "finish": "gloss",
+              "relight_track": "classical"
+            },
+            {
+              "region": "lid",
+              "class": "aluminium",
+              "finish": "brushed",
+              "relight_track": "classical"
+            }
+          ],
+          "captureSession": {
+            "rig_id": "BS-DUB-01",
+            "date": "2026-06-21",
+            "passes": [
+              "cross-polarised",
+              "parallel-polarised",
+              "OLAT-12"
+            ],
+            "calibration_cert": "cal/2026-06-21-A.json"
+          }
+        },
+        "qa": {
+          "deltaE": 0.8,
+          "geometry_dev_mm": 0.14,
+          "logo_integrity": 0.99,
+          "status": "PASS"
+        },
+        "brandRules": {
+          "logo_regions": [
+            {
+              "region": "front_label",
+              "min_px": 120
+            }
+          ],
+          "approved_contexts": [
+            "lifestyle",
+            "product_hero",
+            "food_adjacent",
+            "sport"
+          ],
+          "excluded_contexts": [
+            "alcohol_adjacent",
+            "political"
+          ]
+        },
+        "license": {
+          "usage": [
+            "advertising",
+            "agent_display",
+            "ar_commerce"
+          ],
+          "training": false,
+          "territory": "global",
+          "expires": "2027-06-21"
+        },
+        "renditions": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "nocturne-no7",
+      "name": "Nocturne No.7 Eau de Parfum",
+      "brand": "Maison Nocturne",
+      "category": "perfume bottle",
+      "keywords": [
+        "perfume",
+        "fragrance",
+        "bottle",
+        "glass",
+        "amber",
+        "luxury",
+        "cosmetics"
+      ],
+      "shape": "perfume",
+      "palette": {
+        "base": "#b8792e",
+        "accent": "#1a1a22",
+        "metal": "#cfae6b"
+      },
+      "manifest": {
+        "@context": [
+          "https://schema.org",
+          "https://brandsplats.io/truth/v1"
+        ],
+        "@type": "Product3DAsset",
+        "gtin": "05390002223334",
+        "sku": "MN-NOC7-100-2026",
+        "name": "Nocturne No.7 Eau de Parfum 100ml",
+        "brand": {
+          "@type": "Brand",
+          "name": "Maison Nocturne",
+          "verified": true
+        },
+        "measured": {
+          "dimensions_mm": [
+            72,
+            34.5,
+            118.6
+          ],
+          "mass_g": 342,
+          "colour": {
+            "primary_hex": "#B8792E",
+            "primary_lab": [
+              58.3,
+              18.9,
+              47.2
+            ],
+            "deltaE_vs_brand_spec": 1.4
+          },
+          "materials": [
+            {
+              "region": "flacon",
+              "class": "glass",
+              "finish": "polished",
+              "relight_track": "generative"
+            },
+            {
+              "region": "liquid",
+              "class": "translucent_liquid",
+              "finish": "n/a",
+              "relight_track": "generative"
+            },
+            {
+              "region": "cap",
+              "class": "zamak_alloy",
+              "finish": "satin",
+              "relight_track": "classical"
+            }
+          ],
+          "captureSession": {
+            "rig_id": "BS-DUB-01",
+            "date": "2026-06-24",
+            "passes": [
+              "cross-polarised",
+              "parallel-polarised",
+              "OLAT-24",
+              "backlit-silhouette"
+            ],
+            "calibration_cert": "cal/2026-06-24-B.json"
+          }
+        },
+        "qa": {
+          "deltaE": 1.4,
+          "geometry_dev_mm": 0.21,
+          "logo_integrity": 0.97,
+          "status": "PASS"
+        },
+        "brandRules": {
+          "logo_regions": [
+            {
+              "region": "front_etch",
+              "min_px": 90
+            }
+          ],
+          "approved_contexts": [
+            "luxury",
+            "product_hero",
+            "editorial",
+            "evening"
+          ],
+          "excluded_contexts": [
+            "alcohol_adjacent",
+            "discount_retail",
+            "political"
+          ]
+        },
+        "license": {
+          "usage": [
+            "advertising",
+            "agent_display"
+          ],
+          "training": false,
+          "territory": "EU, UK, US",
+          "expires": "2027-06-24"
+        },
+        "renditions": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "atlas-trail-9",
+      "name": "Atlas Trail 9 Running Shoe",
+      "brand": "Atlas Movement",
+      "category": "footwear",
+      "keywords": [
+        "sneaker",
+        "shoe",
+        "trainer",
+        "running",
+        "trail",
+        "footwear",
+        "sport",
+        "orange"
+      ],
+      "shape": "sneaker",
+      "palette": {
+        "base": "#e8622c",
+        "accent": "#22252d",
+        "metal": "#e8e4da"
+      },
+      "manifest": {
+        "@context": [
+          "https://schema.org",
+          "https://brandsplats.io/truth/v1"
+        ],
+        "@type": "Product3DAsset",
+        "gtin": "05390003334445",
+        "sku": "ATL-TR9-42-2026",
+        "name": "Atlas Trail 9 Running Shoe (EU 42)",
+        "brand": {
+          "@type": "Brand",
+          "name": "Atlas Movement",
+          "verified": true
+        },
+        "measured": {
+          "dimensions_mm": [
+            292,
+            108.4,
+            121
+          ],
+          "mass_g": 288.5,
+          "colour": {
+            "primary_hex": "#E8622C",
+            "primary_lab": [
+              58.9,
+              48.2,
+              52.6
+            ],
+            "deltaE_vs_brand_spec": 1.2
+          },
+          "materials": [
+            {
+              "region": "upper",
+              "class": "engineered_mesh",
+              "finish": "matte",
+              "relight_track": "classical"
+            },
+            {
+              "region": "midsole",
+              "class": "eva_foam",
+              "finish": "matte",
+              "relight_track": "classical"
+            },
+            {
+              "region": "overlay",
+              "class": "tpu_film",
+              "finish": "semi-gloss",
+              "relight_track": "generative"
+            }
+          ],
+          "captureSession": {
+            "rig_id": "BS-DUB-01",
+            "date": "2026-06-27",
+            "passes": [
+              "cross-polarised",
+              "parallel-polarised",
+              "OLAT-12"
+            ],
+            "calibration_cert": "cal/2026-06-27-A.json"
+          }
+        },
+        "qa": {
+          "deltaE": 1.2,
+          "geometry_dev_mm": 0.35,
+          "logo_integrity": 0.98,
+          "status": "PASS"
+        },
+        "brandRules": {
+          "logo_regions": [
+            {
+              "region": "side_mark",
+              "min_px": 100
+            }
+          ],
+          "approved_contexts": [
+            "sport",
+            "lifestyle",
+            "outdoor",
+            "product_hero"
+          ],
+          "excluded_contexts": [
+            "political"
+          ]
+        },
+        "license": {
+          "usage": [
+            "advertising",
+            "agent_display",
+            "ar_commerce"
+          ],
+          "training": false,
+          "territory": "global",
+          "expires": "2027-06-27"
+        },
+        "renditions": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "orbit-one",
+      "name": "Orbit One Headphones",
+      "brand": "Orbit Audio",
+      "category": "audio hardware",
+      "keywords": [
+        "headphones",
+        "audio",
+        "tech",
+        "black",
+        "electronics",
+        "wireless"
+      ],
+      "shape": "headphones",
+      "palette": {
+        "base": "#22252d",
+        "accent": "#c8ff3d",
+        "metal": "#8f939e"
+      },
+      "manifest": {
+        "@context": [
+          "https://schema.org",
+          "https://brandsplats.io/truth/v1"
+        ],
+        "@type": "Product3DAsset",
+        "gtin": "05390004445556",
+        "sku": "ORB-ONE-BLK-2026",
+        "name": "Orbit One Wireless Headphones (Graphite)",
+        "brand": {
+          "@type": "Brand",
+          "name": "Orbit Audio",
+          "verified": true
+        },
+        "measured": {
+          "dimensions_mm": [
+            168,
+            82.3,
+            194.5
+          ],
+          "mass_g": 254,
+          "colour": {
+            "primary_hex": "#22252D",
+            "primary_lab": [
+              15.1,
+              0.4,
+              -3.8
+            ],
+            "deltaE_vs_brand_spec": 0.6
+          },
+          "materials": [
+            {
+              "region": "cups",
+              "class": "polymer_pc_abs",
+              "finish": "soft_touch_matte",
+              "relight_track": "classical"
+            },
+            {
+              "region": "band",
+              "class": "anodised_aluminium",
+              "finish": "satin",
+              "relight_track": "classical"
+            },
+            {
+              "region": "cushion",
+              "class": "protein_leather",
+              "finish": "matte",
+              "relight_track": "classical"
+            }
+          ],
+          "captureSession": {
+            "rig_id": "BS-DUB-01",
+            "date": "2026-06-30",
+            "passes": [
+              "cross-polarised",
+              "parallel-polarised",
+              "OLAT-12"
+            ],
+            "calibration_cert": "cal/2026-06-30-A.json"
+          }
+        },
+        "qa": {
+          "deltaE": 0.6,
+          "geometry_dev_mm": 0.18,
+          "logo_integrity": 1,
+          "status": "PASS"
+        },
+        "brandRules": {
+          "logo_regions": [
+            {
+              "region": "cup_badge",
+              "min_px": 60
+            }
+          ],
+          "approved_contexts": [
+            "tech",
+            "lifestyle",
+            "product_hero",
+            "music"
+          ],
+          "excluded_contexts": [
+            "political"
+          ]
+        },
+        "license": {
+          "usage": [
+            "advertising",
+            "agent_display",
+            "ar_commerce"
+          ],
+          "training": false,
+          "territory": "global",
+          "expires": "2027-06-30"
+        },
+        "renditions": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    }
+  ]
+}

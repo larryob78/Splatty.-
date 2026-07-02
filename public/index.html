@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand Splats — Scan once. Create forever.</title>
+<style>
+:root{
+  --bg:#0a0a0f; --panel:#12121a; --panel2:#181822; --line:#242433; --line2:#32324a;
+  --txt:#eceef2; --txt2:#9aa0ae; --txt3:#5d6270;
+  --acc:#c8ff3d; --acc-dim:#8fb32b; --bad:#ff5c5c; --ok:#4ade80;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);font-size:15px;line-height:1.5}
+a{color:var(--acc)}
+button{font-family:var(--sans);cursor:pointer}
+
+/* header */
+header{display:flex;align-items:center;gap:20px;padding:18px 28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(10,10,15,.92);backdrop-filter:blur(8px);z-index:50}
+.wordmark{font-weight:800;letter-spacing:.14em;font-size:15px}
+.wordmark .splat{color:var(--acc)}
+.tagline{font-size:11px;letter-spacing:.22em;color:var(--txt3);text-transform:uppercase}
+nav{margin-left:auto;display:flex;gap:6px}
+nav button{background:none;border:1px solid transparent;color:var(--txt2);padding:8px 16px;border-radius:8px;font-size:13.5px;font-weight:600}
+nav button.active{color:var(--acc);border-color:var(--line2);background:var(--panel)}
+nav button:hover{color:var(--txt)}
+
+main{max-width:1180px;margin:0 auto;padding:30px 28px 80px}
+.view{display:none}.view.active{display:block}
+h1{font-size:26px;font-weight:800;letter-spacing:-.01em}
+.sub{color:var(--txt2);margin:6px 0 26px;max-width:640px}
+
+/* library grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .15s, transform .15s}
+.card:hover{border-color:var(--acc-dim);transform:translateY(-2px)}
+.card canvas{width:100%;height:190px;display:block;background:radial-gradient(ellipse at 50% 60%,#16161f 0%,#0d0d13 70%)}
+.card .meta{padding:14px 16px 16px}
+.card .name{font-weight:700;font-size:15px}
+.card .brandline{color:var(--txt2);font-size:12.5px;margin-top:2px}
+.badges{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.badge{font-family:var(--mono);font-size:10.5px;padding:3px 8px;border-radius:999px;border:1px solid var(--line2);color:var(--txt2)}
+.badge.verified{color:var(--acc);border-color:var(--acc-dim)}
+.badge.qa{color:var(--ok);border-color:#2f5c40}
+
+/* detail overlay */
+#detail{position:fixed;inset:0;background:rgba(5,5,9,.78);z-index:100;display:none;overflow-y:auto}
+#detail.open{display:block}
+.sheet{max-width:1080px;margin:38px auto;background:var(--panel);border:1px solid var(--line2);border-radius:18px;overflow:hidden}
+.sheet-head{display:flex;align-items:center;padding:20px 26px;border-bottom:1px solid var(--line);gap:14px}
+.sheet-head h2{font-size:20px;font-weight:800}
+.sheet-head .close{margin-left:auto;background:var(--panel2);border:1px solid var(--line2);color:var(--txt2);border-radius:8px;padding:6px 14px;font-size:13px}
+.sheet-body{display:grid;grid-template-columns:1.05fr .95fr;gap:0}
+@media(max-width:860px){.sheet-body{grid-template-columns:1fr}}
+.viewer-pane{padding:22px 26px;border-right:1px solid var(--line)}
+.data-pane{padding:22px 26px;max-height:76vh;overflow-y:auto}
+#splatCanvas{width:100%;height:340px;border-radius:12px;background:radial-gradient(ellipse at 50% 62%,#16161f 0%,#0c0c12 72%);cursor:grab;display:block}
+.hint{font-size:11.5px;color:var(--txt3);text-align:center;margin-top:8px}
+
+/* rungs + envs */
+.rungs{display:flex;gap:6px;margin:16px 0 10px;flex-wrap:wrap}
+.rungs button,.envs button{background:var(--panel2);border:1px solid var(--line2);color:var(--txt2);font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px}
+.rungs button.active,.envs button.active{color:#0a0a0f;background:var(--acc);border-color:var(--acc)}
+.envs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+#heroBox{border-radius:12px;overflow:hidden;display:none}
+#heroBox svg{display:block;width:100%;height:auto}
+.rung-note{font-size:12px;color:var(--txt3);font-family:var(--mono)}
+
+/* manifest */
+.tier{margin-bottom:18px}
+.tier h3{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:4px 12px;font-size:13px}
+.kv .k{color:var(--txt3)}
+.kv .v{font-family:var(--mono);font-size:12.5px;color:var(--txt)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.chip{font-size:11.5px;padding:3px 10px;border-radius:999px;background:var(--panel2);border:1px solid var(--line2);color:var(--txt2)}
+.chip.no{color:var(--bad);border-color:#5a2b2b}
+.chip.yes{color:var(--ok);border-color:#2f5c40}
+.swatch{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:1px solid var(--line2)}
+.actions{display:flex;gap:8px;margin:18px 0 8px;flex-wrap:wrap}
+.actions button{background:var(--panel2);border:1px solid var(--line2);color:var(--txt);font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:8px}
+.actions button:hover{border-color:var(--acc-dim)}
+.actions select{background:var(--panel2);border:1px solid var(--line2);color:var(--txt);font-size:12.5px;padding:8px 10px;border-radius:8px}
+#verifyOut,#licenseOut{margin-top:10px}
+.chainstep{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);font-size:12px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:5px;background:var(--panel2)}
+.chainstep .tick{color:var(--ok);font-weight:700}
+.chainstep .cross{color:var(--bad);font-weight:700}
+.result-banner{font-family:var(--mono);font-size:12.5px;font-weight:700;padding:9px 12px;border-radius:8px;margin-top:6px}
+.result-banner.ok{color:var(--ok);background:#12241a;border:1px solid #2f5c40}
+.result-banner.no{color:var(--bad);background:#291416;border:1px solid #5a2b2b}
+pre.raw{font-family:var(--mono);font-size:11px;line-height:1.55;background:#0d0d13;border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;color:#b9c0cf;margin-top:8px}
+.toggle-raw{font-size:11.5px;color:var(--txt3);background:none;border:none;text-decoration:underline;padding:0;margin-top:12px}
+
+/* agent console */
+.console{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.chatlog{padding:22px;min-height:280px;max-height:56vh;overflow-y:auto}
+.msg{max-width:82%;margin-bottom:14px}
+.msg.user{margin-left:auto}
+.msg .bubble{padding:11px 15px;border-radius:13px;font-size:14px}
+.msg.user .bubble{background:var(--acc);color:#0a0a0f;font-weight:600;border-bottom-right-radius:4px}
+.msg.agent .bubble{background:var(--panel2);border:1px solid var(--line2);border-bottom-left-radius:4px}
+.msg.agent .bubble .heroimg{margin-top:10px;border-radius:9px;overflow:hidden}
+.msg.agent .bubble .heroimg svg{display:block;width:100%;max-width:360px;height:auto}
+.trace{margin:8px 0 14px;max-width:82%}
+.tracecard{border:1px solid var(--line2);border-left:3px solid var(--acc-dim);border-radius:8px;background:#0d0d13;margin-bottom:6px;overflow:hidden}
+.tracecard summary{font-family:var(--mono);font-size:11.5px;color:var(--acc);padding:8px 12px;cursor:pointer;list-style:none;display:flex;gap:8px;align-items:center}
+.tracecard summary::before{content:'▸';color:var(--txt3);transition:transform .12s}
+.tracecard[open] summary::before{transform:rotate(90deg)}
+.tracecard .io{padding:0 12px 10px;font-family:var(--mono);font-size:10.5px;line-height:1.5;color:#8d94a5;white-space:pre-wrap;word-break:break-word;max-height:230px;overflow-y:auto}
+.tracecard .io b{color:var(--txt2)}
+.inputrow{display:flex;gap:10px;padding:16px 22px;border-top:1px solid var(--line)}
+.inputrow input{flex:1;background:var(--panel2);border:1px solid var(--line2);border-radius:10px;color:var(--txt);padding:11px 15px;font-size:14px;outline:none}
+.inputrow input:focus{border-color:var(--acc-dim)}
+.inputrow button{background:var(--acc);color:#0a0a0f;border:none;border-radius:10px;padding:11px 20px;font-weight:700;font-size:14px}
+.suggest{display:flex;gap:8px;flex-wrap:wrap;padding:0 22px 18px}
+.suggest button{background:none;border:1px solid var(--line2);color:var(--txt2);font-size:12px;padding:6px 12px;border-radius:999px}
+.suggest button:hover{color:var(--acc);border-color:var(--acc-dim)}
+
+/* gateway view */
+.endpoint{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.endpoint .sig{font-family:var(--mono);font-size:13px;color:var(--acc)}
+.endpoint .desc{font-size:13px;color:var(--txt2);margin-top:5px}
+.endpoint code{font-family:var(--mono);font-size:11.5px;color:var(--txt3);display:block;margin-top:8px}
+.callout{border:1px solid var(--acc-dim);border-radius:12px;padding:16px 18px;margin:20px 0;background:#131a0d}
+.callout b{color:var(--acc)}
+.callout pre{font-family:var(--mono);font-size:11px;color:#b9c0cf;margin-top:8px;overflow-x:auto}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="wordmark">BRAND<span class="splat">SPLATS</span></div>
+    <div class="tagline">Scan once · Create forever</div>
+  </div>
+  <nav>
+    <button data-view="library" class="active">Library</button>
+    <button data-view="console">Agent Console</button>
+    <button data-view="gateway">Gateway</button>
+    <button onclick="location.href='/splat-lab.html'">Splat Lab ↗</button>
+  </nav>
+</header>
+
+<main>
+  <!-- LIBRARY -->
+  <section id="view-library" class="view active">
+    <h1>Brand Splat Library</h1>
+    <p class="sub">Verified, rig-measured, relightable product assets. Every splat carries a signed Truth Manifest — photoreal for people, machine-readable for agents.</p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- AGENT CONSOLE -->
+  <section id="view-console" class="view">
+    <h1>Agent Console</h1>
+    <p class="sub">A simulated shopping / creative agent working against the live gateway. Every step shows the real tool call and the real JSON coming back from the server.</p>
+    <div class="console">
+      <div class="chatlog" id="chatlog"></div>
+      <div class="suggest" id="suggest"></div>
+      <div class="inputrow">
+        <input id="chatInput" placeholder="Ask the agent — e.g. find me a red drinks can under 120mm…" autocomplete="off">
+        <button id="chatSend">Run</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GATEWAY -->
+  <section id="view-gateway" class="view">
+    <h1>Agent Gateway</h1>
+    <p class="sub">One tool surface, three doors: this REST API, a real MCP server for agents, and (next) ACP product-feed export.</p>
+    <div id="endpoints"></div>
+    <div class="callout">
+      <b>Plug the library straight into Claude.</b> This folder ships a real MCP server. Add it to Claude Desktop / Cowork and Claude can search products, read manifests, verify provenance and request licences — the live demo for agencies and EI assessors.
+      <pre>{
+  "mcpServers": {
+    "brand-splats": {
+      "command": "node",
+      "args": ["/ABSOLUTE/PATH/TO/brand-splats-platform/mcp-server.js"]
+    }
+  }
+}</pre>
+    </div>
+  </section>
+</main>
+
+<!-- DETAIL OVERLAY -->
+<div id="detail">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="dTitle"></h2>
+      <span class="badge verified">✓ BRAND VERIFIED</span>
+      <button class="close" onclick="closeDetail()">Close ✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="viewer-pane">
+        <canvas id="splatCanvas" width="640" height="480"></canvas>
+        <div class="hint" id="viewerHint">drag to orbit — relightable splat (rung 5)</div>
+        <div class="rungs" id="rungs"></div>
+        <div class="envs" id="envs"></div>
+        <div id="heroBox"></div>
+        <div class="rung-note" id="rungNote"></div>
+      </div>
+      <div class="data-pane" id="manifestPane"></div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

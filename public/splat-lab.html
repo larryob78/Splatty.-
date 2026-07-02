@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Splat Lab — Brand Splats</title>
+<style>
+:root{
+  --bg:#0a0a0f; --panel:#12121a; --panel2:#181822; --line:#242433; --line2:#32324a;
+  --txt:#eceef2; --txt2:#9aa0ae; --txt3:#5d6270; --acc:#c8ff3d; --acc-dim:#8fb32b;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);font-size:15px}
+header{display:flex;align-items:center;gap:20px;padding:18px 28px;border-bottom:1px solid var(--line)}
+.wordmark{font-weight:800;letter-spacing:.14em;font-size:15px}
+.wordmark .splat{color:var(--acc)}
+.tagline{font-size:11px;letter-spacing:.22em;color:var(--txt3);text-transform:uppercase}
+header a{margin-left:auto;color:var(--txt2);text-decoration:none;font-size:13.5px;font-weight:600;border:1px solid var(--line2);padding:8px 16px;border-radius:8px}
+header a:hover{color:var(--acc)}
+main{max-width:1180px;margin:0 auto;padding:26px 28px 60px}
+h1{font-size:24px;font-weight:800}
+.sub{color:var(--txt2);margin:6px 0 18px;max-width:720px}
+#stage{position:relative;background:#0d0d13;border:1px solid var(--line2);border-radius:16px;height:560px;overflow:hidden}
+#stage canvas{display:block}
+#status{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:11.5px;color:var(--acc);background:rgba(10,10,15,.72);padding:6px 10px;border-radius:8px;z-index:5;max-width:70%}
+#drop{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--txt3);pointer-events:none;z-index:2}
+#drop.hidden{display:none}
+#drop .big{font-size:17px;color:var(--txt2);font-weight:600}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.controls button,.controls label.btn{background:var(--panel2);border:1px solid var(--line2);color:var(--txt);font-size:12.5px;font-weight:600;padding:9px 14px;border-radius:9px;cursor:pointer;font-family:var(--sans)}
+.controls button:hover,.controls label.btn:hover{border-color:var(--acc-dim)}
+.controls button.primary{background:var(--acc);color:#0a0a0f;border-color:var(--acc)}
+.controls .size{color:var(--txt3);font-weight:400;font-family:var(--mono);font-size:11px}
+.urlrow{display:flex;gap:8px;margin:6px 0 18px}
+.urlrow input{flex:1;background:var(--panel2);border:1px solid var(--line2);border-radius:9px;color:var(--txt);padding:10px 14px;font-size:13px;font-family:var(--mono);outline:none}
+.urlrow input:focus{border-color:var(--acc-dim)}
+.note{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:16px 18px;font-size:13px;color:var(--txt2);line-height:1.6;margin-top:8px}
+.note b{color:var(--acc)}
+.note a{color:var(--acc)}
+#localSplats{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="wordmark">BRAND<span class="splat">SPLATS</span></div>
+    <div class="tagline">Splat Lab · real 3DGS ingest</div>
+  </div>
+  <a href="/">← Back to platform</a>
+</header>
+<main>
+  <h1>Splat Lab</h1>
+  <p class="sub">Load <b>real Gaussian splats</b> (.splat / .ply / .ksplat) into the platform — from the free test library, a URL, a dropped file, or the local <span style="font-family:var(--mono)">data/splats/</span> folder. This is the ingest slot the capture rig will feed.</p>
+
+  <div id="stage">
+    <div id="drop"><div class="big">Drop a .splat / .ply / .ksplat file here</div><div>or pick a sample below — drag to orbit, scroll to zoom</div></div>
+    <div id="status">idle</div>
+  </div>
+
+  <div class="controls">
+    <button class="primary" data-url="https://huggingface.co/cakewalk/splat-data/resolve/main/nike.splat" data-name="Trainer (real product splat)">👟 Trainer <span class="size">8.7 MB</span></button>
+    <button data-url="https://huggingface.co/cakewalk/splat-data/resolve/main/plush.splat" data-name="Plush toy">🧸 Plush toy <span class="size">9 MB</span></button>
+    <button data-url="https://huggingface.co/cakewalk/splat-data/resolve/main/train.splat" data-name="Train scene">🚂 Train scene <span class="size">33 MB</span></button>
+    <button data-url="https://huggingface.co/cakewalk/splat-data/resolve/main/truck.splat" data-name="Truck scene">🛻 Truck scene <span class="size">81 MB</span></button>
+    <label class="btn">📁 Open file<input id="filePick" type="file" accept=".splat,.ply,.ksplat" style="display:none"></label>
+    <button id="flipY">⇅ Flip Y</button>
+  </div>
+
+  <div class="urlrow">
+    <input id="urlInput" placeholder="https://…/your-capture.splat  (any CORS-enabled splat URL — Polycam, Luma, Hugging Face…)">
+    <button class="controls-btn" id="loadUrl" style="background:var(--panel2);border:1px solid var(--line2);color:var(--txt);border-radius:9px;padding:0 18px;font-weight:600;cursor:pointer">Load</button>
+  </div>
+
+  <div class="note">
+    <b>Local library:</b> drop splat files into <span style="font-family:var(--mono)">brand-splats-platform/data/splats/</span> and they appear here.
+    <div id="localSplats"></div>
+  </div>
+
+  <div class="note">
+    <b>Where to get free splats:</b> the samples above come from the open
+    <a href="https://huggingface.co/cakewalk/splat-data" target="_blank">cakewalk/splat-data</a> set on Hugging Face
+    (the antimatter15 demo scenes — research-licensed, test only).
+    For your own captures: <b>Polycam</b> and <b>Luma AI</b> both export Gaussian splats (.ply/.splat) free —
+    scan any product with your phone, export, and drop it here. <b>Scaniverse</b> and <b>SuperSplat</b>
+    (playcanvas) work too. Renderer: <a href="https://github.com/mkkellogg/GaussianSplats3D" target="_blank">GaussianSplats3D</a> (three.js).
+  </div>
+</main>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "@mkkellogg/gaussian-splats-3d": "https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.7/build/gaussian-splats-3d.module.js"
+} }
+</script>
+<script type="module">
+import * as GS from '@mkkellogg/gaussian-splats-3d';
+
+const stage = document.getElementById('stage');
+const statusEl = document.getElementById('status');
+const dropHint = document.getElementById('drop');
+let viewer = null, flipped = true;
+const setStatus = t => statusEl.textContent = t;
+
+function formatFromName(name) {
+  if (/\.ply$/i.test(name)) return GS.SceneFormat.Ply;
+  if (/\.ksplat$/i.test(name)) return GS.SceneFormat.KSplat;
+  return GS.SceneFormat.Splat;
+}
+
+async function resetViewer() {
+  if (viewer) { try { await viewer.dispose(); } catch (e) {} viewer = null; }
+  stage.querySelectorAll('canvas').forEach(c => c.remove());
+}
+
+async function load(url, name) {
+  dropHint.classList.add('hidden');
+  setStatus('loading ' + name + ' …');
+  await resetViewer();
+  try {
+    viewer = new GS.Viewer({
+      rootElement: stage,
+      cameraUp: flipped ? [0, -1, 0] : [0, 1, 0],
+      initialCameraPosition: [0, -1.6, 4.2],
+      initialCameraLookAt: [0, 0, 0],
+      sharedMemoryForWorkers: false,
+      halfPrecisionCovariancesOnGPU: true
+    });
+    await viewer.addSplatScene(url, {
+      format: formatFromName(name),
+      splatAlphaRemovalThreshold: 5,
+      showLoadingUI: true,
+      progressiveLoad: !url.startsWith('blob:')
+    });
+    viewer.start();
+    setStatus('✓ ' + name + ' — real 3DGS · drag to orbit, right-drag to pan, scroll to zoom');
+  } catch (e) {
+    setStatus('✕ failed: ' + e.message + ' (CORS? format?)');
+    dropHint.classList.remove('hidden');
+  }
+}
+
+document.querySelectorAll('.controls button[data-url]').forEach(b => {
+  b.onclick = () => load(b.dataset.url, b.dataset.name);
+});
+document.getElementById('loadUrl').onclick = () => {
+  const u = document.getElementById('urlInput').value.trim();
+  if (u) load(u, u.split('/').pop());
+};
+document.getElementById('filePick').onchange = e => {
+  const f = e.target.files[0];
+  if (f) load(URL.createObjectURL(f), f.name);
+};
+document.getElementById('flipY').onclick = () => {
+  flipped = !flipped;
+  setStatus('camera up flipped — reload a splat to apply');
+};
+
+// drag & drop
+stage.addEventListener('dragover', e => { e.preventDefault(); });
+stage.addEventListener('drop', e => {
+  e.preventDefault();
+  const f = e.dataTransfer.files[0];
+  if (f) load(URL.createObjectURL(f), f.name);
+});
+
+// local data/splats listing
+fetch('/splats/list').then(r => r.json()).then(files => {
+  const box = document.getElementById('localSplats');
+  if (!files.length) { box.innerHTML = '<span style="color:var(--txt3);font-size:12px;font-family:var(--mono)">— folder is empty —</span>'; return; }
+  for (const f of files) {
+    const b = document.createElement('button');
+    b.textContent = '◉ ' + f.name;
+    b.style.cssText = 'background:var(--panel2);border:1px solid var(--line2);color:var(--txt);font-size:12px;padding:7px 12px;border-radius:8px;cursor:pointer';
+    b.onclick = () => load(f.url, f.name);
+    box.appendChild(b);
+  }
+});
+</script>
+</body>
+</html>

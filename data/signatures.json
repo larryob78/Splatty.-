@@ -1,0 +1,22 @@
+{
+  "ember-cola-330": {
+    "signature": "5754dd696b35952d7bf455a0fc45812e7fa5075b3c9fba67ffb9b4827c969cca",
+    "signed_at": "2026-07-02T20:37:22.903Z",
+    "signer": "BS-DUB-01 rig authority (demo)"
+  },
+  "nocturne-no7": {
+    "signature": "19b1cbde5ab5278f0e2ec2a2e4a342f7336400d042693856ca7d3abe7a81c61a",
+    "signed_at": "2026-07-02T20:37:22.903Z",
+    "signer": "BS-DUB-01 rig authority (demo)"
+  },
+  "atlas-trail-9": {
+    "signature": "aab78ba4b6773a048670baf682abf8c9a9b18fa27c42ecc3b862d983c7d4ebbf",
+    "signed_at": "2026-07-02T20:37:22.903Z",
+    "signer": "BS-DUB-01 rig authority (demo)"
+  },
+  "orbit-one": {
+    "signature": "b1d3bd3825a1a555a07a48e53b2a4d7841e6d56f2073dc6a16a2bd7f6bb4ba02",
+    "signed_at": "2026-07-02T20:37:22.903Z",
+    "signer": "BS-DUB-01 rig authority (demo)"
+  }
+}
